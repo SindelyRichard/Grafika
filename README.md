@@ -1,1 +1,1 @@
-Grafika tárgy beadandó + órai munka + gyakorlás
+Grafika tárgy beadandó + órai munka + gyakorlás 
