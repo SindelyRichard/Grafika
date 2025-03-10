@@ -3,7 +3,7 @@
 
 int main(){
     if(SDL_Init(SDL_INIT_VIDEO < 0)){
-        printf("SDL error: /s\n",SDL_GetError());
+        printf("SDL error:  %s\n",SDL_GetError());
         return 1;
     }
     SDL_Window *window = SDL_CreateWindow("Draw lines",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,800,600,SDL_WINDOW_SHOWN);
@@ -35,7 +35,7 @@ int main(){
         if(lineCount==CAPACITY){
             running = false;
             char message[50];
-                sprintf(message, "You have reached the limit (%d).", CAPACITY);
+            sprintf(message, "You have reached the limit (%d).", CAPACITY);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Limit Reached",message, window); 
         }
     }
