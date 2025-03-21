@@ -6,7 +6,7 @@ void init_app(App *app, int width, int height)
 {
     int error_code;
     int inited_loaders;
-    int screenWidth,screenHeight;
+    int screenWidth, screenHeight;
 
     app->is_running = false;
 
@@ -43,7 +43,7 @@ void init_app(App *app, int width, int height)
     }
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
-    SDL_GetWindowSize(app->window,&screenWidth,&screenHeight);
+    SDL_GetWindowSize(app->window, &screenWidth, &screenHeight);
 
     init_opengl();
     reshape(screenWidth, screenHeight);
@@ -85,13 +85,13 @@ void reshape(GLsizei width, GLsizei height)
     if (ratio > VIEWPORT_RATIO)
     {
         w = width;
-        h = (int)((double)width/VIEWPORT_RATIO);
+        h = (int)((double)width / VIEWPORT_RATIO);
         x = 0;
-        y = (height - h)/2;
+        y = (height - h) / 2;
     }
     else
     {
-        w = (int)((double)height*VIEWPORT_RATIO);
+        w = (int)((double)height * VIEWPORT_RATIO);
         h = height;
         x = (width - w) / 2;
         y = 0;
@@ -114,6 +114,8 @@ void handle_app_events(App *app)
     static int mouse_y = 0;
     int x;
     int y;
+    int screenWidth, screenHeight;
+    SDL_GetWindowSize(app->window, &screenWidth, &screenHeight);
 
     while (SDL_PollEvent(&event))
     {
@@ -158,9 +160,18 @@ void handle_app_events(App *app)
             break;
         case SDL_MOUSEMOTION:
             SDL_GetMouseState(&x, &y);
-            rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
-            mouse_x = x;
-            mouse_y = y;
+            if (x <= 5 || x >= screenWidth - 5 || y <= 5 || y >= screenHeight - 5)
+            {
+                SDL_WarpMouseInWindow(app->window, screenWidth / 2, screenHeight / 2);
+                mouse_x = screenWidth / 2;
+                mouse_y = screenHeight / 2;
+            }
+            else
+            {
+                rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
+                mouse_x = x;
+                mouse_y = y;
+            }
             break;
         case SDL_QUIT:
             app->is_running = false;
