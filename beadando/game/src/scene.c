@@ -12,6 +12,12 @@ void init_scene(Scene* scene)
     load_model(&(scene->models[1]), "assets/models/roof.obj");  
     scene->texture_ids[1] = load_texture("assets/textures/ceiling.png");
 
+    load_model(&(scene->models[2]), "assets/models/pillar1.obj");  
+    scene->texture_ids[2] = load_texture("assets/textures/floor1.png");
+
+    load_model(&(scene->models[3]), "assets/models/wall.obj");  
+    scene->texture_ids[3] = load_texture("assets/textures/floor1.png");
+
     scene->material.ambient.red = 0.0;
     scene->material.ambient.green = 0.0;
     scene->material.ambient.blue = 0.0;
@@ -76,10 +82,10 @@ void render_scene(const Scene* scene)
     set_material(&(scene->material));
     set_lighting();
     draw_origin();
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 4; i++)
     {
         glBindTexture(GL_TEXTURE_2D, scene->texture_ids[i]);
-        draw_model(&(scene->models[i]));    
+        draw_model(&(scene->models[i]));
     }
     
 
