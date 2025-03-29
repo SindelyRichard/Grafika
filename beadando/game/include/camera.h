@@ -14,6 +14,8 @@ typedef struct Camera
     vec3 rotation;
     vec3 speed;
     bool is_preview_visible;
+    bool is_jumping;
+    double jump_speed;
 } Camera;
 
 /**
@@ -41,6 +43,10 @@ void rotate_camera(Camera* camera, double horizontal, double vertical);
  */
 void set_camera_speed(Camera* camera, double speed);
 
+/**
+ * Set the height of the camera
+ */
+void set_camera_height(Camera* camera,double vertical);
 /**
  * Set the speed of left and right side steps.
  */

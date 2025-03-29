@@ -133,6 +133,9 @@ void handle_app_events(App *app)
             case SDL_SCANCODE_S:
                 set_camera_speed(&(app->camera), -4);
                 break;
+            case SDL_SCANCODE_SPACE:
+                set_camera_height(&(app->camera),5.0);
+                break;
             case SDL_SCANCODE_A:
                 set_camera_side_speed(&(app->camera), 4);
                 break;
