@@ -99,3 +99,10 @@ void show_texture_preview()
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 }
+
+void cameraCollision(Camera* camera,int x,int y){
+    if(camera->position.x == x && camera->position.y==y){
+        
+    }
+
+}

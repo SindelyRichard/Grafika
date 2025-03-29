@@ -18,9 +18,9 @@ void init_scene(Scene* scene)
     load_model(&(scene->models[3]), "assets/models/wall.obj");  
     scene->texture_ids[3] = load_texture("assets/textures/floor1.png");
 
-    scene->material.ambient.red = 0.0;
-    scene->material.ambient.green = 0.0;
-    scene->material.ambient.blue = 0.0;
+    scene->material.ambient.red = 1.0;
+    scene->material.ambient.green = 1.0;
+    scene->material.ambient.blue = 1.0;
 
     scene->material.diffuse.red = 1.0;
     scene->material.diffuse.green = 1.0;
@@ -35,10 +35,11 @@ void init_scene(Scene* scene)
 
 void set_lighting()
 {
-    float ambient_light[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float ambient_light[] = { 1.0f, 1.0f, 1.0f, 0.0f };
     float diffuse_light[] = { 1.0f, 1.0f, 1.0, 1.0f };
     float specular_light[] = { 0.0f, 0.0f, 0.0f, 1.0f };
     float position[] = { 0.0f, 0.0f, 10.0f, 1.0f };
+   
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
@@ -75,6 +76,7 @@ void set_material(const Material* material)
 
 void update_scene(Scene* scene)
 {
+
 }
 
 void render_scene(const Scene* scene)
@@ -87,8 +89,46 @@ void render_scene(const Scene* scene)
         glBindTexture(GL_TEXTURE_2D, scene->texture_ids[i]);
         draw_model(&(scene->models[i]));
     }
-    
 
+    glPushMatrix();
+    glTranslatef(-5.0f, -5.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(8.0f, 8.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5.0f, 5.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-8.0f, -8.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-8.0f, 8.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-5.0f, 5.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(8.0f, -8.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5.0f, -5.0f, 0.0f);
+    draw_model(&(scene->models[2]));
+    glPopMatrix();
 }
 
 void draw_origin()
