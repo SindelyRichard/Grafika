@@ -1,12 +1,11 @@
 #include "camera.h"
-
 #include <GL/gl.h>
-
+#include "collision.h"
 #include <math.h>
 
-void init_camera(Camera* camera)
+void init_camera(Camera *camera)
 {
-    camera->position.x = 19.0;
+    camera->position.x = 10.0;
     camera->position.y = 0.0;
     camera->position.z = 1.0;
     camera->rotation.x = 0.0;
@@ -15,6 +14,8 @@ void init_camera(Camera* camera)
     camera->speed.x = 0.0;
     camera->speed.y = 0.0;
     camera->speed.z = 0.0;
+
+    camera->collision_detected = false;
 
     camera->is_preview_visible = false;
 }
@@ -44,9 +45,23 @@ void update_camera(Camera* camera, double time)
             camera->is_jumping = false;
         }
     }
+    if(!check_collision(camera,get_obj(0))){
+            //camera->collision_detected = true;
+            printf("Collision detected!!\n");
+        }
+
+    for (int i = 1; i < getObjCount(); i++)
+    {
+        if(check_collision(camera,get_obj(i))){
+            //camera->collision_detected = true;
+            printf("Collision detected!!\n");
+        }
+        //else camera->collision_detected = false;
+    }
+    
 }
 
-void set_view(const Camera* camera)
+void set_view(const Camera *camera)
 {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -56,41 +71,48 @@ void set_view(const Camera* camera)
     glTranslatef(-camera->position.x, -camera->position.y, -camera->position.z);
 }
 
-void rotate_camera(Camera* camera, double horizontal, double vertical)
+void rotate_camera(Camera *camera, double horizontal, double vertical)
 {
     camera->rotation.z += horizontal;
 
-
-    if (camera->rotation.z > 360.0) {
+    if (camera->rotation.z > 360.0)
+    {
         camera->rotation.z -= 360.0;
     }
-    else if (camera->rotation.z < 0.0) {
+    else if (camera->rotation.z < 0.0)
+    {
         camera->rotation.z += 360.0;
     }
     camera->rotation.x += vertical;
 
-    if (camera->rotation.x < -90.0) {
+    if (camera->rotation.x < -90.0)
+    {
         camera->rotation.x = -90.0;
-    }else if (camera->rotation.x > 90.0) {
+    }
+    else if (camera->rotation.x > 90.0)
+    {
         camera->rotation.x = 90.0;
     }
 }
 
-void set_camera_speed(Camera* camera, double speed)
+void set_camera_speed(Camera *camera, double speed)
 {
     camera->speed.y = speed;
 }
 
-void set_camera_height(Camera* camera,double vertical){     
-    if(!camera->is_jumping){
+void set_camera_height(Camera *camera, double vertical)
+{
+    if (!camera->is_jumping)
+    {
         camera->jump_speed = vertical;
         camera->is_jumping = true;
     }
 }
-void set_camera_side_speed(Camera* camera, double speed)
+void set_camera_side_speed(Camera *camera, double speed)
 {
     camera->speed.x = speed;
 }
+
 
 void show_texture_preview()
 {
@@ -117,11 +139,4 @@ void show_texture_preview()
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
-}
-
-void cameraCollision(Camera* camera,int x,int y){
-    if(camera->position.x == x && camera->position.y==y){
-        
-    }
-
 }

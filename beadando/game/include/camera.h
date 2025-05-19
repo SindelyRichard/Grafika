@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include "utils.h"
-
+#include "collision.h"
 #include <stdbool.h>
 
 /**
@@ -16,6 +16,7 @@ typedef struct Camera
     bool is_preview_visible;
     bool is_jumping;
     double jump_speed;
+    bool collision_detected;
 } Camera;
 
 /**
@@ -52,6 +53,6 @@ void set_camera_height(Camera* camera,double vertical);
  */
 void set_camera_side_speed(Camera* camera, double speed);
 
-void cameraCollision(Camera* camera,int x,int y);
+
 
 #endif /* CAMERA_H */

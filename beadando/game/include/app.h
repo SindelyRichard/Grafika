@@ -3,7 +3,7 @@
 
 #include "camera.h"
 #include "scene.h"
-
+#include "collision.h"
 #include <SDL2/SDL.h>
 
 #include <stdbool.h>
@@ -55,5 +55,9 @@ void render_app(App* app);
  * Destroy the application.
  */
 void destroy_app(App* app);
+/**
+ * Handle running event.
+ */
+void running(App* app);
 
 #endif /* APP_H */

@@ -1,6 +1,7 @@
 #include "app.h"
-
 #include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include "collision.h"
 
 void init_app(App *app, int width, int height)
 {
@@ -50,6 +51,10 @@ void init_app(App *app, int width, int height)
 
     init_camera(&(app->camera));
     init_scene(&(app->scene));
+
+    load_obj("assets/models/wall.obj");
+
+    load_obj("assets/models/pillar1.obj");
 
     app->is_running = true;
 }
@@ -106,16 +111,28 @@ void reshape(GLsizei width, GLsizei height)
         .1, 100);
 }
 
+void running(App *app)
+{
+    if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_LSHIFT] && SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W])
+    {
+        set_camera_speed(&(app->camera), 10);
+    }
+    else if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W])
+    {
+        set_camera_speed(&(app->camera), 4);
+    }
+}
+
 void handle_app_events(App *app)
 {
     SDL_Event event;
-    static bool is_mouse_down = false;
     static int mouse_x = 0;
     static int mouse_y = 0;
     int x;
     int y;
     int screenWidth, screenHeight;
     SDL_GetWindowSize(app->window, &screenWidth, &screenHeight);
+    running(app);
 
     while (SDL_PollEvent(&event))
     {
@@ -127,14 +144,11 @@ void handle_app_events(App *app)
             case SDL_SCANCODE_ESCAPE:
                 app->is_running = false;
                 break;
-            case SDL_SCANCODE_W:
-                set_camera_speed(&(app->camera), 4);
-                break;
             case SDL_SCANCODE_S:
                 set_camera_speed(&(app->camera), -4);
                 break;
             case SDL_SCANCODE_SPACE:
-                set_camera_height(&(app->camera),5.0);
+                set_camera_height(&(app->camera), 5.0);
                 break;
             case SDL_SCANCODE_A:
                 set_camera_side_speed(&(app->camera), 4);
@@ -149,6 +163,7 @@ void handle_app_events(App *app)
         case SDL_KEYUP:
             switch (event.key.keysym.scancode)
             {
+            case SDL_SCANCODE_LSHIFT:
             case SDL_SCANCODE_W:
             case SDL_SCANCODE_S:
                 set_camera_speed(&(app->camera), 0);

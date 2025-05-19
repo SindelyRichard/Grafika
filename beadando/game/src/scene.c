@@ -1,5 +1,4 @@
 #include "scene.h"
-
 #include <obj/load.h>
 #include <obj/draw.h>
 
@@ -17,7 +16,7 @@ void init_scene(Scene* scene)
 
     load_model(&(scene->models[3]), "assets/models/wall.obj");  
     scene->texture_ids[3] = load_texture("assets/textures/floor1.png");
-
+    
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
     scene->material.ambient.blue = 1.0;
