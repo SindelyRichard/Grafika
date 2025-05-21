@@ -56,6 +56,24 @@ void init_app(App *app, int width, int height)
 
     load_obj("assets/models/pillar1.obj");
 
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+    load_obj("assets/models/pillar1.obj");
+
+    set_object_position(2, -5.0f, -5.0f, 0.0f);
+    set_object_position(3, 8.0f, 8.0f, 0.0f);
+    set_object_position(4, 5.0f, 5.0f, 0.0f);
+    set_object_position(5, -8.0f, -8.0f, 0.0f);
+    set_object_position(6, -8.0f, 8.0f, 0.0f);
+    set_object_position(7, -5.0f, 5.0f, 0.0f);
+    set_object_position(8, 8.0f, -8.0f, 0.0f);
+    set_object_position(9, 5.0f, -5.0f, 0.0f);
+
     app->is_running = true;
 }
 

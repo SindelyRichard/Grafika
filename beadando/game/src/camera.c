@@ -20,7 +20,7 @@ void init_camera(Camera *camera)
     camera->is_preview_visible = false;
 }
 
-void update_camera(Camera* camera, double time)
+void update_camera(Camera *camera, double time)
 {
     double angle;
     double side_angle;
@@ -35,30 +35,44 @@ void update_camera(Camera* camera, double time)
     camera->position.x += cos(side_angle) * camera->speed.x * time;
     camera->position.y += sin(side_angle) * camera->speed.x * time;
 
-    if(camera->is_jumping){
-        camera->position.z+=camera->jump_speed*time;
-        camera->jump_speed -= gravity*time;
+    if (camera->is_jumping)
+    {
+        camera->position.z += camera->jump_speed * time;
+        camera->jump_speed -= gravity * time;
 
-        if(camera->position.z <=ground_level){
+        if (camera->position.z <= ground_level)
+        {
             camera->position.z = ground_level;
             camera->jump_speed = 0;
             camera->is_jumping = false;
         }
     }
-    if(!check_collision(camera,get_obj(0))){
-            //camera->collision_detected = true;
-            printf("Collision detected!!\n");
-        }
+    if (!check_collision_wall(camera, get_obj(0)))
+    {
+        printf("Collision detected!!\n");
+        camera->position.x -= cos(angle) * camera->speed.y * time;
+        camera->position.y -= sin(angle) * camera->speed.y * time;
+        camera->position.x -= cos(side_angle) * camera->speed.x * time;
+        camera->position.y -= sin(side_angle) * camera->speed.x * time;
+
+        camera->speed.x = 0;
+        camera->speed.y = 0;
+    }
 
     for (int i = 1; i < getObjCount(); i++)
     {
-        if(check_collision(camera,get_obj(i))){
-            //camera->collision_detected = true;
+        if (check_collision(camera, get_obj(i)))
+        {
             printf("Collision detected!!\n");
+            camera->position.x -= cos(angle) * camera->speed.y * time;
+            camera->position.y -= sin(angle) * camera->speed.y * time;
+            camera->position.x -= cos(side_angle) * camera->speed.x * time;
+            camera->position.y -= sin(side_angle) * camera->speed.x * time;
+
+            camera->speed.x = 0;
+            camera->speed.y = 0;
         }
-        //else camera->collision_detected = false;
     }
-    
 }
 
 void set_view(const Camera *camera)
@@ -112,7 +126,6 @@ void set_camera_side_speed(Camera *camera, double speed)
 {
     camera->speed.x = speed;
 }
-
 
 void show_texture_preview()
 {
