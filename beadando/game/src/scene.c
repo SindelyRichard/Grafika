@@ -1,6 +1,9 @@
 #include "scene.h"
 #include <obj/load.h>
 #include <obj/draw.h>
+#include <math.h>
+#include "enemy.h"
+#include "utils.h"
 
 void init_scene(Scene *scene)
 {
@@ -11,14 +14,17 @@ void init_scene(Scene *scene)
     scene->texture_ids[1] = load_texture("assets/textures/ceiling.png");
 
     load_model(&(scene->models[2]), "assets/models/pillar1.obj");
-    scene->texture_ids[2] = load_texture("assets/textures/floor1.png");
+    scene->texture_ids[2] = load_texture("assets/textures/pillar2.png");
 
     load_model(&(scene->models[3]), "assets/models/wall.obj");
-    scene->texture_ids[3] = load_texture("assets/textures/floor1.png");
+    scene->texture_ids[3] = load_texture("assets/textures/wall2.png");
 
-    scene->material.ambient.red = 1.0;
-    scene->material.ambient.green = 1.0;
-    scene->material.ambient.blue = 1.0;
+    load_model(&(scene->models[4]), "assets/models/raptor.obj");
+    scene->texture_ids[4] = load_texture("assets/textures/raptor.png");
+
+    scene->material.ambient.red = 0.5;
+    scene->material.ambient.green = 0.5;
+    scene->material.ambient.blue = 0.5;
 
     scene->material.diffuse.red = 1.0;
     scene->material.diffuse.green = 1.0;
@@ -67,12 +73,13 @@ void set_material(const Material *material)
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
 }
-
+/*
 void update_scene(Scene *scene)
 {
 }
+*/
 
-void render_scene(const Scene *scene)
+void render_scene(const Scene *scene, const Camera *camera)
 {
     set_material(&(scene->material));
     set_lighting();
@@ -82,44 +89,62 @@ void render_scene(const Scene *scene)
         glBindTexture(GL_TEXTURE_2D, scene->texture_ids[i]);
         draw_model(&(scene->models[i]));
     }
+    float dx = camera->position.x - enemies[0].x;
+    float dy = camera->position.y - enemies[0].y;
+    float angle = atan2f(dy, dx) * 180.0f / M_PI - 90.0f;
+
+    glPushMatrix();
+    glTranslatef(enemies[0].x, enemies[0].y, enemies[0].z);
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[4]);
+    draw_model(&(scene->models[4]));
+    glPopMatrix();
 
     glPushMatrix();
     glTranslatef(-5.0f, -5.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(8.0f, 8.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(5.0f, 5.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(-8.0f, -8.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(-8.0f, 8.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(-5.0f, 5.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(8.0f, -8.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(5.0f, -5.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_ids[2]);
     draw_model(&(scene->models[2]));
     glPopMatrix();
 }

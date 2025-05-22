@@ -43,4 +43,6 @@ bool check_collision_wall(Camera *camera, AABB obj);
 
 int getObjCount();
 
+bool check_collision_enemy(float x, float y, float z);
+
 #endif

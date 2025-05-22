@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "camera.h"
 #include <string.h>
+#include "enemy.h"
 
 Col_vertex vertices[MAX_VERTICES];
 int vertex_count = 0;
@@ -91,7 +92,7 @@ bool check_collision(Camera *camera, AABB obj)
 {
     float cam_x = camera->position.x;
     float cam_y = camera->position.y;
-    float cam_z = camera->position.z;
+    // float cam_z = camera->position.z;
 
     return cam_x + 0.1 >= obj.min_x && cam_x - 0.1 <= obj.max_x &&
            cam_y + 0.1 >= obj.min_y && cam_y - 0.1 <= obj.max_y;
@@ -101,10 +102,25 @@ bool check_collision_wall(Camera *camera, AABB obj)
 {
     float cam_x = camera->position.x;
     float cam_y = camera->position.y;
-    float cam_z = camera->position.z;
+    // float cam_z = camera->position.z;
 
     return cam_x - 0.1 >= obj.min_x && cam_x + 0.1 <= obj.max_x &&
            cam_y - 0.1 >= obj.min_y && cam_y + 0.1 <= obj.max_y;
+}
+bool check_collision_enemy(float x, float y, float z)
+{
+    for (int i = 1; i < object_count; ++i)
+    {
+
+        AABB obj = get_obj(i);
+
+        if (x + 0.1 >= obj.min_x && x - 0.1 <= obj.max_x &&
+            y + 0.1 >= obj.min_y && y - 0.1 <= obj.max_y)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 int getObjCount()

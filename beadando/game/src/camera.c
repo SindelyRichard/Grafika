@@ -1,16 +1,20 @@
 #include "camera.h"
 #include <GL/gl.h>
 #include "collision.h"
+#include "enemy.h"
 #include <math.h>
+#include <stdio.h>
 
 void init_camera(Camera *camera)
 {
     camera->position.x = 10.0;
     camera->position.y = 0.0;
     camera->position.z = 1.0;
+    
     camera->rotation.x = 0.0;
     camera->rotation.y = 0.0;
-    camera->rotation.z = 0.0;
+    camera->rotation.z = 90.0;
+
     camera->speed.x = 0.0;
     camera->speed.y = 0.0;
     camera->speed.z = 0.0;
@@ -49,7 +53,7 @@ void update_camera(Camera *camera, double time)
     }
     if (!check_collision_wall(camera, get_obj(0)))
     {
-        printf("Collision detected!!\n");
+        // printf("Collision detected!!\n");
         camera->position.x -= cos(angle) * camera->speed.y * time;
         camera->position.y -= sin(angle) * camera->speed.y * time;
         camera->position.x -= cos(side_angle) * camera->speed.x * time;
@@ -63,7 +67,7 @@ void update_camera(Camera *camera, double time)
     {
         if (check_collision(camera, get_obj(i)))
         {
-            printf("Collision detected!!\n");
+            // printf("Collision detected!!\n");
             camera->position.x -= cos(angle) * camera->speed.y * time;
             camera->position.y -= sin(angle) * camera->speed.y * time;
             camera->position.x -= cos(side_angle) * camera->speed.x * time;

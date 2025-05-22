@@ -6,11 +6,13 @@
 
 #include <obj/model.h>
 
+#define NUM 6
+
 typedef struct Scene
 {
-    Model models[4];
+    Model models[NUM];
     Material material;
-    GLuint texture_ids[4];
+    GLuint texture_ids[NUM];
 } Scene;
 
 /**
@@ -31,12 +33,12 @@ void set_material(const Material* material);
 /**
  * Update the scene.
  */
-void update_scene(Scene* scene);
+//void update_scene(Scene* scene);
 
 /**
  * Render the scene objects.
  */
-void render_scene(const Scene* scene);
+void render_scene(const Scene* scene, const Camera* camera);
 
 /**
  * Draw the origin of the world coordinate system.

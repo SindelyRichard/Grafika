@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include "collision.h"
+#include "enemy.h"
 
 void init_app(App *app, int width, int height)
 {
@@ -73,6 +74,12 @@ void init_app(App *app, int width, int height)
     set_object_position(7, -5.0f, 5.0f, 0.0f);
     set_object_position(8, 8.0f, -8.0f, 0.0f);
     set_object_position(9, 5.0f, -5.0f, 0.0f);
+
+    load_obj("assets/models/raptor.obj");
+    set_object_position(10, 10.0f, 10.0f, 0.0f);
+
+    init_enemies();
+    enemies[0].obj_index = 10;
 
     app->is_running = true;
 }
@@ -228,7 +235,8 @@ void update_app(App *app)
     app->uptime = current_time;
 
     update_camera(&(app->camera), elapsed_time);
-    update_scene(&(app->scene));
+    // update_scene(&(app->scene));
+    update_enemies(&(app->camera));
 }
 
 void render_app(App *app)
@@ -238,7 +246,7 @@ void render_app(App *app)
 
     glPushMatrix();
     set_view(&(app->camera));
-    render_scene(&(app->scene));
+    render_scene(&(app->scene), &(app->camera));
     glPopMatrix();
 
     if (app->camera.is_preview_visible)
