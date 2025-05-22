@@ -29,6 +29,7 @@ void update_enemies(Camera *camera)
 
         float dx = camera->position.x - e->x;
         float dy = camera->position.y - e->y;
+        //float dz = camera->position.z - e->z;
         float dist = sqrtf(dx * dx + dy * dy);
 
         if (dist < 1.0f)
