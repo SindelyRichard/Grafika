@@ -22,13 +22,13 @@ void init_scene(Scene *scene)
     load_model(&(scene->models[4]), "assets/models/raptor.obj");
     scene->texture_ids[4] = load_texture("assets/textures/raptor.png");
 
-    scene->material.ambient.red = 0.3;
-    scene->material.ambient.green = 0.3;
-    scene->material.ambient.blue = 0.3;
+    scene->material.ambient.red = 0.1;
+    scene->material.ambient.green = 0.1;
+    scene->material.ambient.blue = 0.1;
 
-    scene->material.diffuse.red = 1.0;
-    scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 1.0;
+    scene->material.diffuse.red = 1;
+    scene->material.diffuse.green = 1;
+    scene->material.diffuse.blue = 1;
 
     scene->material.specular.red = 0.0;
     scene->material.specular.green = 0.0;
@@ -42,7 +42,7 @@ void set_lighting()
     float ambient_light[] = {1.0f, 1.0f, 1.0f, 0.0f};
     float diffuse_light[] = {1.0f, 1.0f, 1.0, 1.0f};
     float specular_light[] = {0.0f, 0.0f, 0.0f, 1.0f};
-    float position[] = {7.0f, 7.0f, 9.0f, 1.0f};
+    float position[] = {0.0f, 0.0f, 20.0f, 1.0f};
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
@@ -111,11 +111,14 @@ void render_scene(const Scene *scene, const Camera *camera)
 {
     set_material(&(scene->material));
     set_lighting();
-    draw_origin();
+
     for (int i = 0; i < 4; i++)
     {
-        glBindTexture(GL_TEXTURE_2D, scene->texture_ids[i]);
-        draw_model(&(scene->models[i]));
+        if (i != 2)
+        {
+            glBindTexture(GL_TEXTURE_2D, scene->texture_ids[i]);
+            draw_model(&(scene->models[i]));
+        }
     }
     float dx = camera->position.x - enemies[0].x;
     float dy = camera->position.y - enemies[0].y;
@@ -177,7 +180,7 @@ void render_scene(const Scene *scene, const Camera *camera)
     glPopMatrix();
 
     GLfloat shadowMat[16];
-    GLfloat lightPos[] = {0.0f, 0.0f, 10.0f, 1.0f};
+    GLfloat lightPos[] = {0.0f, 0.0f, 20.0f, 1.0f};
     GLfloat floorPlane[] = {0.0f, 0.0f, 1.0f, 0.0f};
 
     shadow_matrix(shadowMat, lightPos, floorPlane);
@@ -245,3 +248,4 @@ void draw_origin()
 
     glEnd();
 }
+GLfloat shadowMat[16];
