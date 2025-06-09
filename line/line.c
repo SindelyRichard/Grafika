@@ -1,8 +1,8 @@
 #include "line.h"
 
 Line lines[CAPACITY];
-int lineCount = 0;
 bool waitingForSecondPoint = false;
+int lineCount = 0;
 
 SDL_Color randomColor(){
     SDL_Color color;
@@ -13,25 +13,25 @@ SDL_Color randomColor(){
     return color;
 }
 
-void handleEvents(SDL_Event e){
+void handleEvents(SDL_Event e, int *lineCount){
     if(e.type == SDL_MOUSEBUTTONDOWN){
         int x = e.button.x;
         int y = e.button.y;
-        if(lineCount < CAPACITY){
+        if(*lineCount < CAPACITY){
             if(!waitingForSecondPoint){
-                lines[lineCount] = (Line){randomColor(),{x,y},{0,0}};
+                lines[*lineCount] = (Line){randomColor(),{x,y},{0,0}};
                 waitingForSecondPoint = true;
             }else{
-                lines[lineCount].end.x = x;
-                lines[lineCount].end.y = y;
-                lineCount++;
+                lines[*lineCount].end.x = x;
+                lines[*lineCount].end.y = y;
+                (*lineCount)++;
                 waitingForSecondPoint = false;
             }
         }
     }
 }
 
-void draw(SDL_Renderer *renderer){
+void draw(SDL_Renderer *renderer, int lineCount){
     for (int i = 0; i < lineCount; i++)
     {
         SDL_SetRenderDrawColor(renderer,lines[i].color.r,lines[i].color.g,lines[i].color.b,lines[i].color.a);

@@ -19,6 +19,7 @@ int main(){
     }
     bool running = true;
     SDL_Event e;
+    int lineCount = 0;
 
     while (running)
     {
@@ -26,11 +27,11 @@ int main(){
             if(e.type == SDL_QUIT){
                 running = false;
             }
-            handleEvents(e);
+            handleEvents(e,&lineCount);
         }
         SDL_SetRenderDrawColor(renderer,0,0,0,0);
         SDL_RenderClear(renderer);
-        draw(renderer);
+        draw(renderer,lineCount);
         SDL_Delay(16);
         if(lineCount==CAPACITY){
             running = false;

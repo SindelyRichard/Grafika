@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define CAPACITY 6
+#define CAPACITY 3
 
 typedef struct Line{
     SDL_Color color;
@@ -14,11 +14,7 @@ typedef struct Line{
 }Line;
 
 SDL_Color randomColor();
-void handleEvents(SDL_Event e);
-void draw(SDL_Renderer *renderer);
-
-extern Line lines[CAPACITY];
-extern int lineCount;
-extern bool waitingForSecondPoint;
+void handleEvents(SDL_Event e,int* lineCount);
+void draw(SDL_Renderer *renderer,int lineCount);
 
 #endif
