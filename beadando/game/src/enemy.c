@@ -34,7 +34,7 @@ void update_enemies(Camera *camera)
 
         if (dist < 1.0f)
         {
-            printf("MEGHALTÁL!\n");
+            printf("YOU DIED!\n");
             camera->position.x = 10.0;
             camera->position.y = 0.0;
             camera->position.z = 1.0;
